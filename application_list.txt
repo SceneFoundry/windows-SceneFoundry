@@ -1,4 +1,4 @@
-SceneFoundry/gpu_sandbox
+SceneFoundry/SceneFoundry
 app/app
 app/just_acme_message_box
 app/just_apex_message_box

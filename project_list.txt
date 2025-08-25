@@ -119,7 +119,6 @@ source/app/fs_folder_sync_dropbox
 source/app/fs_folder_sync_onedrive
 source/app/fs_raw_folder_protocol_dropbox
 source/app/gpu_opengl
-source/app/gpu_vulkan
 source/app/helloaura
 source/app/helloaxis
 source/app/hellobase
@@ -185,6 +184,7 @@ source/app-graphics3d/gpu_directx12
 source/app-graphics3d/gpu_vulkan
 source/app-graphics3d/graphics3d_directx11
 source/app-graphics3d/graphics3d_directx12
+source/app-graphics3d/graphics3d_khronos
 source/app-graphics3d/graphics3d_opengl
 source/app-graphics3d/graphics3d_vulkan
 source/app-graphics3d/hello3d
@@ -194,9 +194,8 @@ source/app-graphics3d/MyPlace2025
 source/app-graphics3d/write_text_direct2d_directx12
 source/app-graphics3d/write_text_directx12
 source/app-graphics3d/_matter
-source/SceneFoundry/gpu_sandbox
-source/SceneFoundry/sandbox_engine
-source/SceneFoundry/sandbox_game
-source/SceneFoundry/sandbox_interfaces
-source/SceneFoundry/sandbox_renderer
+source/SceneFoundry/aaa_sandbox
+source/SceneFoundry/aaa_sandbox_engine
+source/SceneFoundry/aaa_sandbox_renderer
+source/SceneFoundry/SceneFoundry
 source/SceneFoundry/_matter
