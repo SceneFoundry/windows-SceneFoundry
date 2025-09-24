@@ -6,6 +6,13 @@ code.exe method currently is not working, so please use the other following next
 In this framework, some variables are named using unicode characters in source code. In order to compile such source code you must set this feature on the windows machine where you are going to setup this ca2 Software Development Environment.
 Download and run [https://windows.ca2.store/utf8.reg](https://windows.ca2.store/utf8.reg) and restart machine.
 
+### Symbolic links will be broken, so it is better to these steps here...
+... because later we're going to restore symbolic links inside the folder C:\Users\<username>\SceneFoundry\main\port\include and it maybe not possible
+... to do it if Developer Mode is not enabled before repository is cloned.
+Prerequisites (steps to do if not already done):
+- Enable Developer Mode for Windows at Developer Settings
+- Install Tortoise Git
+
 ### tool-windows
 At Git Bash
 ```bash
@@ -34,24 +41,26 @@ git clone https://github.com/ca2/tool-windows $HOME/code/operating_system/tool -
 ### storage-windows
 Unzip [https://windows.ca2.store/storage-windows-forGraphics3DLabs.zip](https://windows.ca2.store/storage-windows-forGraphics3DLabs.zip) to `C:\Users\<username>\SceneFoundry\operating_system\storage-windows`.
 
-### Clone simple project
+### Clone Scene Foundry project
 Suggested name of folder is SceneFoundry\main.
 ```bash
 git clone https://github.com/SceneFoundry/windows-SceneFoundry $HOME/SceneFoundry/main --recurse-submodules
 ```
 
-### Symbolic links will be broken, so...
+### As mentioned earlier, there would be a point where we would have broken symbolic links, so...
 
-### Enable Developer Mode for Windows at Developer Settings
+... here we are. We're going to restore symbolic links inside the folder C:\Users\<username>\SceneFoundry\main\port\include.
+Using Tortoise Git:
+- Go inside folder C:\Users\<username>\SceneFoundry\main\port\include in Explorer and delete every file and folder inside of it
+- Right click empty space inside folder C:\Users\<username>\SceneFoundry\main\port\include
+- Click Revert option in the Tortoise Git Sub Menu
+- Tortoise Git Revert Screen will display. Select everything in it to be reverted and then click Revert.
 
-### Install Tortoise Git
+### Open and run SceneFoundry project.
 
-### delete folder C:\Users\<username>\SceneFoundry\main\port\include
+Open `C:\Users\<username>\SceneFoundry\main\solution-windows\SceneFoundry.sln` project.
+Now, you can build and run SceneFoundry solution.
 
-### Revert C:\simple\port\include deletion using Tortoise Git by right clicking include folder inside the folder C:\Users\<username>\SceneFoundry\main\port and clicking Revert option in Context Menu Tortoise Git Sub Menu
 
-### At Tortoise Git Revert Screen, select everything and then click Revert.
-
-Open `C:\Users\<username>\SceneFoundry\main\solution-windows\SceneFoundry.sln` project you can now build and run SceneFoundry solution.
 
 
