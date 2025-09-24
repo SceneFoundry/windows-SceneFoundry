@@ -1,5 +1,7 @@
 ## Installation for Windows
 
+code.exe method currently is not working, so please use the other following next steps.
+
 ### Unicode UTF-8 for worldwide language support
 In this framework, some variables are named using unicode characters in source code. In order to compile such source code you must set this feature on the windows machine where you are going to setup this ca2 Software Development Environment.
 Download and run [https://windows.ca2.store/utf8.reg](https://windows.ca2.store/utf8.reg) and restart machine.
