@@ -122,6 +122,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SceneFoundry_SceneFoundry",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "shared_SceneFoundry_SceneFoundry", "..\source\SceneFoundry\SceneFoundry\__implement\shared_SceneFoundry_SceneFoundry.vcxproj", "{C4990B2E-D2FF-40BD-A858-2AF2581DEA1D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gpu", "..\source\app\gpu\gpu.vcxproj", "{D728FD54-84D0-4B93-9D34-43338F285886}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		cover|ARM = cover|ARM
@@ -1821,6 +1823,36 @@ Global
 		{C4990B2E-D2FF-40BD-A858-2AF2581DEA1D}.StaticRelease|Win32.Build.0 = Release|Win32
 		{C4990B2E-D2FF-40BD-A858-2AF2581DEA1D}.StaticRelease|x64.ActiveCfg = Release|x64
 		{C4990B2E-D2FF-40BD-A858-2AF2581DEA1D}.StaticRelease|x64.Build.0 = Release|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.cover|ARM.ActiveCfg = DebugWithInlOpt|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.cover|ARM.Build.0 = DebugWithInlOpt|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.cover|Win32.ActiveCfg = Debug|Win32
+		{D728FD54-84D0-4B93-9D34-43338F285886}.cover|Win32.Build.0 = Debug|Win32
+		{D728FD54-84D0-4B93-9D34-43338F285886}.cover|x64.ActiveCfg = DebugWithInlOpt|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.cover|x64.Build.0 = DebugWithInlOpt|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.Debug|ARM.ActiveCfg = Debug|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.Debug|ARM.Build.0 = Debug|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D728FD54-84D0-4B93-9D34-43338F285886}.Debug|Win32.Build.0 = Debug|Win32
+		{D728FD54-84D0-4B93-9D34-43338F285886}.Debug|x64.ActiveCfg = Debug|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.Debug|x64.Build.0 = Debug|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.Release|ARM.ActiveCfg = Release|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.Release|ARM.Build.0 = Release|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.Release|Win32.ActiveCfg = Release|Win32
+		{D728FD54-84D0-4B93-9D34-43338F285886}.Release|Win32.Build.0 = Release|Win32
+		{D728FD54-84D0-4B93-9D34-43338F285886}.Release|x64.ActiveCfg = Release|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.Release|x64.Build.0 = Release|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.StaticDebug|ARM.ActiveCfg = StaticDebug|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.StaticDebug|ARM.Build.0 = StaticDebug|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.StaticDebug|Win32.ActiveCfg = StaticDebug|Win32
+		{D728FD54-84D0-4B93-9D34-43338F285886}.StaticDebug|Win32.Build.0 = StaticDebug|Win32
+		{D728FD54-84D0-4B93-9D34-43338F285886}.StaticDebug|x64.ActiveCfg = StaticDebug|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.StaticDebug|x64.Build.0 = StaticDebug|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.StaticRelease|ARM.ActiveCfg = StaticRelease|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.StaticRelease|ARM.Build.0 = StaticRelease|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.StaticRelease|Win32.ActiveCfg = StaticRelease|Win32
+		{D728FD54-84D0-4B93-9D34-43338F285886}.StaticRelease|Win32.Build.0 = StaticRelease|Win32
+		{D728FD54-84D0-4B93-9D34-43338F285886}.StaticRelease|x64.ActiveCfg = StaticRelease|x64
+		{D728FD54-84D0-4B93-9D34-43338F285886}.StaticRelease|x64.Build.0 = StaticRelease|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

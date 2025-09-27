@@ -56,15 +56,15 @@
     <mapping directory="$PROJECT_DIR$/port/graphics3d/vkvg/vkvg/vkh" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/port/graphics3d/vulkan" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/port/imaging" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/port/imaging/freeimage" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/port/imaging/jpeg" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/port/imaging/jxr" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/port/imaging/openexr" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/port/imaging/openjpeg" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/port/imaging/png" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/port/imaging/rawlite" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/port/imaging/tiff4" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/port/imaging/webp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/port/imaging/port_freeimage" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/port/imaging/port_jpeg" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/port/imaging/port_jxr" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/port/imaging/port_openexr" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/port/imaging/port_openjpeg" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/port/imaging/port_png" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/port/imaging/port_rawlite" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/port/imaging/port_tiff4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/port/imaging/port_webp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/port/user-generation1" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/port/user-generation1/imgui" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/port/user-generation1/imgui/imgui" vcs="Git" />
@@ -72,7 +72,7 @@
     <mapping directory="$PROJECT_DIR$/source" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/source/SceneFoundry" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/source/SceneFoundry/_matter" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/source/SceneFoundry/_matter/gpu_sandbox" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/source/SceneFoundry/_matter/SceneFoundry" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/source/app" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/source/app-graphics3d" vcs="Git" />
   </component>
