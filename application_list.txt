@@ -1,14 +1,15 @@
 SceneFoundry/SceneFoundry
+SceneFoundry/opengl-pbr-renderer
 app/app
 app/just_acme_message_box
 app/just_apex_message_box
 app/just_aqua_message_box
 app/just_aura_message_box
-app/just_message_box
 app/launch/integration
 app/launch2/integration
 app/message_box
 app/shader
+app/store/integration
 app-graphics3d/MyPlace2025
 app-graphics3d/continuum
 app-graphics3d/fuel-memory-directx
