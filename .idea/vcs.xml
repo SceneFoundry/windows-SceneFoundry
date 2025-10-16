@@ -44,6 +44,9 @@
     <mapping directory="$PROJECT_DIR$/port/graphics3d/assimp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/port/graphics3d/assimp/assimp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/port/graphics3d/glad" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/port/graphics3d/ktx" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/port/graphics3d/ktx/KTX-Software" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/port/graphics3d/ktx/KTX-Software/tests/cts" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/port/graphics3d/nanovg" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/port/graphics3d/nanovg/nanovg" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/port/graphics3d/tinygltf" vcs="Git" />
