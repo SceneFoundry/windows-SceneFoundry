@@ -1,5 +1,5 @@
 SceneFoundry/SceneFoundry
-SceneFoundry/opengl-pbr-renderer
+SceneFoundry/pbr-renderer
 app/app
 app/just_acme_message_box
 app/just_apex_message_box
