@@ -76,8 +76,6 @@
     <mapping directory="$PROJECT_DIR$/source/SceneFoundry" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/source/SceneFoundry/_matter" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/source/SceneFoundry/_matter/SceneFoundry" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/source/SceneFoundry/_matter/opengl-pbr-renderer" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/source/SceneFoundry/opengl-pbr-renderer" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/source/app" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/source/app-graphics3d" vcs="Git" />
   </component>
