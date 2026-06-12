@@ -2,6 +2,22 @@
 root = true
 
 
+[*]
+end_of_line = crlf
+
+[*.{sh,bash,zsh,command,mk,cmake}]
+end_of_line = lf
+
+[Dockerfile]
+end_of_line = lf
+
+[Makefile]
+end_of_line = lf
+
+[CMakeLists.txt]
+end_of_line = lf
+
+
 [*.{c++,cc,cpp,cppm,cxx,h,h++,hh,hpp,hxx,inl,ipp,ixx,tlh,tli}]
 indent_style = space
 indent_size = 3
