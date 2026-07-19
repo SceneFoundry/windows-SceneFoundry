@@ -107,8 +107,10 @@ The implementation throws framework exceptions for:
 - failed OpenGL transfers;
 - unsupported backend transfer hooks.
 
-An exception must not leave the image marked mapped or leave modified OpenGL
-bindings and pixel-store state behind.
+A failed `map()` must not mark the image mapped. A failed `unmap()` retains the
+mapped staging buffer and mapped flag so the caller's CPU edits are not lost
+and the upload can be retried. Neither failure may leave modified OpenGL
+bindings or pixel-store state behind.
 
 ## Verification
 
