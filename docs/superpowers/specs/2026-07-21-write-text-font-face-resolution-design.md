@@ -77,26 +77,40 @@ The implementation caches successful plain descriptors by normalized family, wei
 
 If DirectWrite cannot resolve a family, the override invokes the base path-only implementation after substitution. This retains support for an otherwise valid legacy path mapping without replacing a requested family by an arbitrary default.
 
-## Raster-Font Capability
+## Legacy GDI Font Capabilities
 
 Windows GDI enumeration can also report legacy bitmap fonts such as `Courier`,
 which is backed by `COURE.FON`. NanoVG accepts only file-backed outline fonts
 that FontStash can parse, so a raster font cannot be repaired by name
 resolution or passed to `nvgCreateFontAtIndex()`.
 
-Aura's `draw2d::draw2d` interface will expose a raster-font capability that
-defaults to `true`, preserving current behavior for GDI-capable backends.
-`draw2d_nanovg::draw2d` will override the capability and return `false`.
+GDI also reports the legacy logical/vector families `Modern`, `Roman`, and
+`Script` with font type zero. They enter the enumerator's existing `m_bOther`
+branch rather than its `m_bRaster` branch. They likewise do not resolve to a
+NanoVG-loadable outline face. Raster and type-zero fonts are distinct Windows
+font categories and must remain independently representable.
+
+Aura's `draw2d::draw2d` interface exposes two capabilities:
+
+- `write_text_supports_raster_fonts()` controls bitmap/raster enumeration;
+- `write_text_supports_legacy_gdi_fonts()` controls the legacy GDI
+  type-zero/other enumeration branch.
+
+Both capabilities default to `true`, preserving current behavior for
+GDI-capable backends. `draw2d_nanovg::draw2d` overrides both and returns
+`false` because neither category can be registered with FontStash.
 
 Before Windows starts `EnumFontFamiliesW`, its font enumerator will read this
-capability from the active draw2d implementation and disable its existing
-`m_bRaster` flag when raster fonts are unsupported. The existing callback then
-filters `RASTER_FONTTYPE` entries at their source. TrueType and other outline
-font handling remains unchanged.
+pair of capabilities from the active draw2d implementation. It disables
+`m_bRaster` when raster fonts are unsupported and independently disables
+`m_bOther` when legacy GDI fonts are unsupported. The existing callback then
+filters both categories at their source. `TRUETYPE_FONTTYPE` handling remains
+unchanged.
 
-The filter is capability-based rather than a NanoVG type check, a hardcoded
-font-name substitution, or exception handling in the font list. Other
-backends can opt out of raster fonts later by overriding the same interface.
+The filters are capability-based rather than a NanoVG type check, hardcoded
+font-name substitutions, or exception handling in the font list. Other
+backends can opt out of either category independently by overriding the
+corresponding interface.
 
 ## NanoVG Integration
 
@@ -139,14 +153,15 @@ Testing follows red-green-refactor and covers each boundary:
 5. The existing per-NanoVG-context registration contract is extended to require `nvgCreateFontAtIndex()` and face-specific keys.
 6. Existing graphics lease, GPU image, OpenGL target-selection, and NanoVG image-boundary contracts continue to pass.
 7. Debug x64 builds cover Aura, `write_text_win32`, `draw2d_nanovg`, and the continuum application.
-8. A capability contract verifies the Aura default, the NanoVG override, and
-   the Windows enumerator's use of the capability before calling
+8. Capability contracts verify both Aura defaults, both NanoVG overrides, and
+   the Windows enumerator's independent use of each capability before calling
    `EnumFontFamiliesW`.
 
 Runtime validation requires font enumeration to complete without font-loading
 exceptions, omit legacy raster-only faces such as `Courier` under NanoVG,
-retain them for raster-capable backends, render collection-backed faces
-correctly, and preserve responsive scrolling.
+omit legacy GDI type-zero faces such as `Modern`, retain each category for
+backends that declare support, render collection-backed faces correctly, and
+preserve responsive scrolling.
 
 ## Scope
 
