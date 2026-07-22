@@ -47,8 +47,10 @@ Extend `gpu_image_boundary_diagnostics_contract_test.cpp` after the existing sta
       std::string::npos);
    assert(header.find("diagnose_gpu_image_target_state(") !=
       std::string::npos);
-   assert(header.find(
-      "diagnose_rendered_gpu_image(::gpu_opengl::texture * pgputexture, ::i64 iDiagnosticIndex)") !=
+   const auto renderedDiagnosticDeclaration = header.find(
+      "void diagnose_rendered_gpu_image(");
+   assert(renderedDiagnosticDeclaration != std::string::npos);
+   assert(header.find("::i64 iDiagnosticIndex", renderedDiagnosticDeclaration) !=
       std::string::npos);
 
    assert(source.find(
@@ -68,24 +70,27 @@ Extend the existing `onEndLayer` ordering block with:
    const auto reserveDiagnostic = onEndLayer.find(
       "reserve_rendered_gpu_image_diagnostic()");
    const auto readFramebufferBefore = onEndLayer.find(
-      "GL_DRAW_FRAMEBUFFER_BINDING, &iDrawFramebufferBefore", reserveDiagnostic);
+      "GL_DRAW_FRAMEBUFFER_BINDING", reserveDiagnostic);
    const auto diagnoseTargetState = onEndLayer.find(
       "diagnose_gpu_image_target_state(", bindTarget);
    const auto endFrameWithDiagnostic = onEndLayer.find(
       "nvgEndFrame(m_pdc);", diagnoseTargetState);
    const auto diagnoseRenderWithIndex = onEndLayer.find(
-      "diagnose_rendered_gpu_image(ptextureDiagnostic, iDiagnosticIndex)",
-      endFrameWithDiagnostic);
+      "diagnose_rendered_gpu_image(", endFrameWithDiagnostic);
+   const auto diagnoseRenderIndex = onEndLayer.find(
+      "iDiagnosticIndex", diagnoseRenderWithIndex);
    assert(reserveDiagnostic != std::string::npos);
    assert(readFramebufferBefore != std::string::npos);
    assert(diagnoseTargetState != std::string::npos);
    assert(endFrameWithDiagnostic != std::string::npos);
    assert(diagnoseRenderWithIndex != std::string::npos);
+   assert(diagnoseRenderIndex != std::string::npos);
    assert(reserveDiagnostic < readFramebufferBefore);
    assert(readFramebufferBefore < bindTarget);
    assert(bindTarget < diagnoseTargetState);
    assert(diagnoseTargetState < endFrameWithDiagnostic);
    assert(endFrameWithDiagnostic < diagnoseRenderWithIndex);
+   assert(diagnoseRenderWithIndex < diagnoseRenderIndex);
 ```
 
 - [ ] **Step 2: Compile and run the contract to verify RED**
