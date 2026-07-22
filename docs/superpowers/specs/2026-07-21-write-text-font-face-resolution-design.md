@@ -63,6 +63,9 @@ Resolution proceeds as follows:
 
 1. Normalize the requested family and follow `HKLM` or `HKCU` `FontSubstitutes` entries. Remove an optional charset suffix such as `,178` from the substitute target. Stop on a repeated name or after a fixed maximum depth to prevent substitution cycles.
 2. Locate the resulting family in the DirectWrite system font collection.
+   If GDI enumeration supplied a face name that is not a DirectWrite family name,
+   use `IDWriteGdiInterop::CreateFontFromLOGFONT()` to obtain the corresponding
+   DirectWrite font without guessing or truncating style suffixes.
 3. Select the closest face with the requested weight, normal stretch, and normal or italic style.
 4. Create the DirectWrite font face and obtain its face index.
 5. Obtain the face's font file. For a local font file, use `IDWriteLocalFontFileLoader` to obtain the absolute path.
@@ -73,6 +76,27 @@ Only a single local OpenType/TrueType file is supported by this first implementa
 The implementation caches successful plain descriptors by normalized family, weight, and italic state. It does not negatively cache failures. The cache is cleared when the Windows font enumeration is refreshed so installing or removing a font does not leave stale paths. The existing `write_text` font synchronization protects initialization and cache access because font previews may resolve faces concurrently from pooled graphics-context threads. DirectWrite COM pointers remain inside `write_text_win32` and are released with that service.
 
 If DirectWrite cannot resolve a family, the override invokes the base path-only implementation after substitution. This retains support for an otherwise valid legacy path mapping without replacing a requested family by an arbitrary default.
+
+## Raster-Font Capability
+
+Windows GDI enumeration can also report legacy bitmap fonts such as `Courier`,
+which is backed by `COURE.FON`. NanoVG accepts only file-backed outline fonts
+that FontStash can parse, so a raster font cannot be repaired by name
+resolution or passed to `nvgCreateFontAtIndex()`.
+
+Aura's `draw2d::draw2d` interface will expose a raster-font capability that
+defaults to `true`, preserving current behavior for GDI-capable backends.
+`draw2d_nanovg::draw2d` will override the capability and return `false`.
+
+Before Windows starts `EnumFontFamiliesW`, its font enumerator will read this
+capability from the active draw2d implementation and disable its existing
+`m_bRaster` flag when raster fonts are unsupported. The existing callback then
+filters `RASTER_FONTTYPE` entries at their source. TrueType and other outline
+font handling remains unchanged.
+
+The filter is capability-based rather than a NanoVG type check, a hardcoded
+font-name substitution, or exception handling in the font list. Other
+backends can opt out of raster fonts later by overriding the same interface.
 
 ## NanoVG Integration
 
@@ -115,8 +139,14 @@ Testing follows red-green-refactor and covers each boundary:
 5. The existing per-NanoVG-context registration contract is extended to require `nvgCreateFontAtIndex()` and face-specific keys.
 6. Existing graphics lease, GPU image, OpenGL target-selection, and NanoVG image-boundary contracts continue to pass.
 7. Debug x64 builds cover Aura, `write_text_win32`, `draw2d_nanovg`, and the continuum application.
+8. A capability contract verifies the Aura default, the NanoVG override, and
+   the Windows enumerator's use of the capability before calling
+   `EnumFontFamiliesW`.
 
-Runtime validation requires font enumeration to complete without the `Arabic Transparent` exception, font previews to contain transparent backgrounds with visible text, collection-backed families to render the correct face, and scrolling to retain the performance gained from pooled graphics contexts.
+Runtime validation requires font enumeration to complete without font-loading
+exceptions, omit legacy raster-only faces such as `Courier` under NanoVG,
+retain them for raster-capable backends, render collection-backed faces
+correctly, and preserve responsive scrolling.
 
 ## Scope
 
