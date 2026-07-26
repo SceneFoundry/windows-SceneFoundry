@@ -30,6 +30,8 @@ bound when its queued commands are flushed by `nvgEndFrame`.
 - Resolve the completed 3D and 2D composition exactly once.
 - Expose only a single-sample `GL_TEXTURE_2D` to normal `sampler2D` shaders and
   swap-chain presentation.
+- Disable NanoVG geometry-fringe antialiasing by default when application MSAA
+  is enabled, while retaining an explicit draw2d_nanovg setting for overrides.
 - Diagnose framebuffer failures at the point where each framebuffer is
   assembled.
 
@@ -94,13 +96,27 @@ the framebuffer bound by the application:
 5. Submit NanoVG drawing.
 6. Call `nvgEndFrame` before resolving.
 
-`NVG_STENCIL_STROKES` remains enabled. `NVG_DEBUG` remains enabled in the
-current debug configuration.
+`draw2d_nanovg::draw2d` owns the Boolean
+`m_bNanoVGGeometryAntialias`. It is initialized to the inverse of
+`m_gpu.m_bMultisample`:
 
-`NVG_ANTIALIAS` may be disabled when MSAA is active because it is redundant
-geometry-fringe antialiasing, but this optimization is deferred until the
-shared-MSAA path is visually verified. Keeping it enabled initially reduces
-the behavioral scope of the fix.
+- application MSAA enabled: NanoVG geometry antialiasing disabled by default;
+- application MSAA disabled: NanoVG geometry antialiasing enabled by default.
+
+The setting controls whether `NVG_ANTIALIAS` is passed to `nvgCreateGL3`. It is
+stored in draw2d_nanovg rather than the generic GPU configuration because it
+selects a NanoVG rendering technique, not an OpenGL sample count. Keeping it as
+an explicit setting also allows diagnostics or compatibility work to enable
+both techniques deliberately.
+
+The default is established when draw2d_nanovg initializes, after the
+application GPU configuration is available, and is used consistently by every
+NanoVG context created by that draw2d implementation. Changing it after a
+NanoVG context has been created does not mutate that context; the new value
+takes effect the next time the context is created.
+
+`NVG_STENCIL_STROKES` remains enabled independently of this setting.
+`NVG_DEBUG` remains enabled in the current debug configuration.
 
 ## Resolve Operation
 
@@ -153,6 +169,10 @@ Runtime verification will cover:
 - Graphics3D without NanoVG;
 - NanoVG without Graphics3D;
 - combined Graphics3D and NanoVG;
+- application MSAA enabled defaults NanoVG `NVG_ANTIALIAS` off;
+- application MSAA disabled defaults NanoVG `NVG_ANTIALIAS` on;
+- the draw2d_nanovg override can deliberately enable NanoVG antialiasing with
+  application MSAA;
 - window resize and render-target recreation;
 - a frame containing NanoVG stencil-based fills and strokes;
 - presentation of the resolved texture without OpenGL errors.
