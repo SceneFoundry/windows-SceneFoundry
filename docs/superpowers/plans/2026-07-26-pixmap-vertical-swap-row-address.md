@@ -30,10 +30,13 @@
 
 - [ ] **Step 1: Write the failing behavioral test**
 
-Create a native test that initializes a 3-by-4 pixmap over four rows with a
-16-byte stride: 12 active bytes and 4 padding bytes per row. Put distinct
-literal pixel values in every row, distinct padding values after every row,
-and guard bytes before and after the pixmap storage.
+Create a native test with both odd- and even-height fixtures:
+
+- a 5-by-3 pixmap with a 24-byte stride;
+- a 3-by-4 pixmap with a 20-byte stride.
+
+Put distinct literal pixel values in every row, distinct padding values after
+every row, and guard bytes before and after each pixmap storage.
 
 Call:
 
@@ -48,6 +51,11 @@ values.
 
 The production mutation this test catches is using any width/height-derived
 offset instead of `stride * (height - 1)` for the bottom row.
+
+Also initialize a pixmap with width `0x40000001`, height `2`, and stride `8`
+over small, distinct guarded rows. Assert `vertical_swap()` leaves the storage
+unchanged, proving invalid metadata is rejected before signed row-size
+arithmetic can overflow.
 
 - [ ] **Step 2: Build and run the focused test to verify RED**
 
@@ -64,28 +72,70 @@ compile the focused executable against that library, and run it:
 ```
 
 Compile `source/app/acme/test/graphics/pixmap_vertical_swap.cpp` using the
-Visual Studio x64 developer environment, the repository include root, and the
-Debug/x64 `acme` import library produced by the solution build.
+Visual Studio x64 developer environment and the Debug/x64 `acme` import
+library produced by the solution build:
+
+```powershell
+$root = (Resolve-Path ".").Path
+$vsDevCmd = "C:\Program Files\Microsoft Visual Studio\18\Community\Common7\Tools\VsDevCmd.bat"
+$test = "$root\source\app\acme\test\graphics\pixmap_vertical_swap.cpp"
+$out = Join-Path $env:TEMP "pixmap_vertical_swap_test.exe"
+$includes = @(
+  "$root\source\app\acme",
+  "$root\operating_system\operating_system-windows\include\configuration_selection\Debug",
+  "$root\operating_system\operating_system-windows\include",
+  "$root\operating_system\operating_system-windows",
+  "$root\port\include",
+  "$root\port",
+  "$root\source\app\_include",
+  "$root\source\app",
+  "$root\source",
+  "$root"
+)
+$includeArgs = ($includes | ForEach-Object { '/I"' + $_ + '"' }) -join " "
+$object = Join-Path $env:TEMP "pixmap_vertical_swap_test.obj"
+$compile = '"' + $vsDevCmd + '" -arch=x64 -host_arch=x64 >nul && ' +
+  'cl /nologo /std:c++20 /EHsc /MDd /DUNICODE /D_UNICODE /D_WINDOWS /Fo:"' +
+  $object + '" ' +
+  $includeArgs + ' "' + $test + '" /link /LIBPATH:"' +
+  "$root\time-windows\x64\Debug" + '" acme.lib /OUT:"' + $out + '"'
+cmd.exe /d /s /c $compile
+
+$env:PATH = "$root\time-windows\x64\Debug;" + $env:PATH
+& $out
+```
 
 Expected: the executable returns a nonzero exit code because the current
 bottom-row address shifts active rows and writes into guard storage.
 
 - [ ] **Step 3: Implement the minimal shared-helper correction**
 
-In `pixmap_t::vertical_swap()`, derive:
+In `pixmap_t::vertical_swap()`, validate the raw metadata before deriving row
+sizes:
 
 ```cpp
 auto pdata = (::u8 *)ppixmap->image32();
-auto iRowBytes = ppixmap->width() * (::i32)sizeof(::image32_t);
+auto width = ppixmap->width();
 auto h = ppixmap->height();
 ```
 
-Return when `pdata` is null, `iRowBytes <= 0`, `h <= 1`, or
-`iStride < iRowBytes`. Then initialize the row pointers with:
+Return when `pdata` is null, `width <= 0`, `h <= 1`, or `width` exceeds
+`I32_MAXIMUM / sizeof(::image32_t)`. Derive `iRowBytes` only after that
+validation, default a non-positive stride to `iRowBytes`, and reject a stride
+smaller than `iRowBytes`.
+
+Compute the bottom offset using widened unsigned arithmetic:
+
+```cpp
+::u64 uBottomOffset =
+   (::u64)iStride * (::u64)(h - 1);
+```
+
+Return if it exceeds `IPTR_MAXIMUM`, then initialize the row pointers with:
 
 ```cpp
 auto pline1 = pdata;
-auto pline2 = pdata + iStride * (h - 1);
+auto pline2 = pdata + (::memsize)uBottomOffset;
 ```
 
 Keep the existing scratch-row three-copy loop, advancing and retreating by
