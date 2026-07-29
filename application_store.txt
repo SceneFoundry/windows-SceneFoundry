@@ -1,3 +1,4 @@
 app-graphics3d/continuum
+app-graphics3d/hello_space
 SceneFoundry/SceneFoundry
 SceneFoundry/pbr-renderer
