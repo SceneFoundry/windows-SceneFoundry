@@ -14,6 +14,8 @@ The Visual Studio project invokes the materializer before C compilation and repl
 
 The wrapper permits an explicit CMake executable override for Visual Studio builds and otherwise resolves `cmake` from `PATH`. Git is a required materialization dependency because the patch format and validation use `git apply`.
 
+The wrapper's `.gitmodules` entry does not name a tracking branch. The parent repository's mode-`160000` gitlink is the sole source of truth for the VKVG revision and remains pinned to `65d1eecacbfeb0f7a288896cccb8e1e871ecf6cf`. Consequently, ordinary submodule initialization checks out the reviewed revision. An explicit `git submodule update --remote` can still move the working tree to the remote's default branch tip; it is excluded from the normal build/update procedure, and adopting such a revision requires review followed by an intentional gitlink update.
+
 ## Owned Components
 
 The wrapper will own:
@@ -76,6 +78,7 @@ The completed verification set covers:
 - unchanged hashes and clean Git status for the VKVG submodule before and after materialization;
 - presence of every intended production change in generated files;
 - absence of those local modifications from the restored submodule;
+- absence of a branch-tracking hint in `.gitmodules` and an exact mode-`160000` gitlink at commit `65d1eecacbfeb0f7a288896cccb8e1e871ecf6cf`;
 - Visual Studio references to generated affected sources;
 - CMake shared and static targets receiving the same generated affected sources;
 - wrapper-owned clockwise and counterclockwise gradient regression coverage;
