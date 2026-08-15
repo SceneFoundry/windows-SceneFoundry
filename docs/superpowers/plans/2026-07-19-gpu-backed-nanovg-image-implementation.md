@@ -211,7 +211,7 @@ Add this declaration next to `class texture;` in `source/app/bred/gpu/_.h`:
 Create `source/app/bred/gpu/image.cpp`:
 
 ```cpp
-#include "framework.h"
+#include "platform.h"
 #include "image.h"
 #include "context.h"
 #include "context_lock.h"
