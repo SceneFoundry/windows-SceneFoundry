@@ -2,6 +2,7 @@ time-*/
 workspace.xml
 cmake-build-*/
 cmake-time-*/
+intermediate-*/
 **/doxygen.directory
 **/.vs
 **/Debug
