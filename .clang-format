@@ -1,7 +1,7 @@
 ---
 Language: Cpp
 BasedOnStyle: LLVM
-AccessModifierOffset: -3
+AccessModifierOffset: -4
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
 AlignOperands: true
@@ -30,7 +30,7 @@ BreakConstructorInitializers: AfterColon
 BreakConstructorInitializersBeforeComma: false
 ColumnLimit: 120
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
-ContinuationIndentWidth: 3
+ContinuationIndentWidth: 4
 EmptyLineAfterAccessModifier: Leave
 EmptyLineBeforeAccessModifier: Leave
 IncludeCategories: 
@@ -42,7 +42,7 @@ IncludeCategories:
     Priority: 3
 IncludeIsMainRegex: '([-_](test|unittest))?$'
 IndentCaseLabels: true
-IndentWidth: 3
+IndentWidth: 4
 InsertNewlineAtEOF: true
 MacroBlockBegin: ''
 MacroBlockEnd: ''
@@ -55,5 +55,5 @@ SpacesInAngles: false
 SpacesInConditionalStatement: false
 SpacesInCStyleCastParentheses: false
 SpacesInParentheses: false
-TabWidth: 3
+TabWidth: 4
 ...
